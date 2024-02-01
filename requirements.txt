@@ -1,0 +1,13 @@
+# requests==2.21.0
+# Flask==2.0.3
+# itsdangerous==2.1.2
+# Jinja2==3.1.1
+# MarkupSafe==2.1.1
+# Werkzeug==2.0.3
+# oauthlib==3.0.1
+# pyOpenSSL==19.0.0
+# Flask-Login==0.4.1
+# cryptography==36.0.2
+google-auth
+google-auth-oauthlib
+google-api-python-client
