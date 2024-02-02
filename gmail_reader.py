@@ -49,18 +49,16 @@ class GmailReader:
 
   def transform_emails_to_html(self, service, label_name, messages):
     os.makedirs(f'{self.output_dir}/{label_name}', exist_ok=True)
-    # pool = multiprocessing.Pool(8)
-    processing_args = []
-    for message in messages:
-      processing_args.append((service, label_name, message))
-    partial_function = partial(invoke_instance_method, self)
-    stopwatch = Stopwatch()
-    stopwatch.start()
-    # pool.map(partial_function, processing_args)
-    for message in messages:
-      self.transform_to_html(service, label_name, message)
-    stopwatch.stop()
-    print(f"Elapsed Time: {stopwatch.elapsed_time()} seconds")
+    with multiprocessing.Pool(8) as pool:
+      processing_args = []
+      for message in messages:
+        processing_args.append((service, label_name, message))
+      partial_function = partial(invoke_instance_method, self)
+      stopwatch = Stopwatch()
+      stopwatch.start()
+      pool.map(partial_function, processing_args)
+      stopwatch.stop()
+      print(f"Elapsed Time: {stopwatch.elapsed_time()} seconds")
 
   def read_mail_body_by_walking_tree(self, service, mail, payload):
     if payload.get('mimeType') == 'text/html':
