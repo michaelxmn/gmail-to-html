@@ -12,8 +12,8 @@ from googleapiclient.errors import HttpError
 SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 
 class GmailConnection:
-  def __init__(self):
-    pass
+  def __init__(self, credentials_file):
+    self.credentials_file = credentials_file
 
   def connect(self):
     """Shows basic usage of the Gmail API.
@@ -31,7 +31,7 @@ class GmailConnection:
         creds.refresh(Request())
       else:
         flow = InstalledAppFlow.from_client_secrets_file(
-            "credentials.json", SCOPES
+            self.credentials_file, SCOPES
         )
         creds = flow.run_local_server(port=5001, redirect_uri_trailing_slash=False)
       # Save the credentials for the next run

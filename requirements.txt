@@ -1,3 +1,4 @@
-google-auth
-google-auth-oauthlib
-google-api-python-client
+google-auth==2.27.0
+google-auth-oauthlib==1.2.0
+google-api-python-client==2.116.0
+click==8.1.7
