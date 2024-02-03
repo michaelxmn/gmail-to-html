@@ -1,7 +1,7 @@
-# Your Application Name
+# Gmail To Html
 
 ## Introduction
-Briefly introduce your application here. Include its purpose, main features, and any other relevant information.
+"Gmail To Html" is a Python CLI application that can download emails and save them as HTML files. It allows you to download emails that meet specified criteria based on labels and search conditions. Since the emails are saved in HTML format, you can easily use a web browser to view them or utilize these HTML files for other purposes.
 
 ## Quick Start
 To run the application, follow these steps:
