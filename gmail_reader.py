@@ -44,7 +44,7 @@ class GmailReader:
     mail.render_embbeded_attachment()
 
     mail_file_name = f"{self.output_dir}/{label_name}/{mail.subject}.html"
-    with open(mail_file_name, "a") as mail_file:
+    with open(mail_file_name, "w") as mail_file:
       mail_file.write(mail.format_to_html())
 
   def transform_emails_to_html(self, service, label_name, messages):
