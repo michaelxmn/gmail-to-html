@@ -12,7 +12,7 @@ To run the application, follow these steps:
   pip install -r requirements.txt
   ```
 
-2. Download your GCP oauth-credentials as `<your_repository_path>/credentials.json`, guides: `https://developers.google.com/workspace/guides/create-credentials`
+2. Download your GCP oauth-credentials as `<your_repository_path>/credentials.json`, visit `https://developers.google.com/workspace/guides/create-credentials` for more guides
 
 3. Run the application using the following command:
   ```bash
