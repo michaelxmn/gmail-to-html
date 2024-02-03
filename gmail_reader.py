@@ -21,15 +21,19 @@ class GmailReader:
       if query:
          search_query += ' ' + query
       print(f'Preparing for messages query: `{search_query}`')
-      results = self.service.users().messages().list(userId='me', q=search_query).execute()
-      messages = results.get('messages', [])
-
-      if not messages:
-        print(f'No messages found with the query `{search_query}`.')
-      else:
-        message_size = results.get('resultSizeEstimate', 0)
-        print(f'Messages size: {message_size}')
-        self.transform_emails_to_html(self.service, label_name, messages)
+      page_token = None
+      while True:
+        results = self.service.users().messages().list(userId='me', q=search_query, pageToken=page_token).execute()
+        messages = results.get('messages', [])
+        if not messages:
+          print(f'No messages found with the query `{search_query}`.')
+        else:
+          message_size = results.get('resultSizeEstimate', 0)
+          print(f'Messages size: {message_size}')
+          self.transform_emails_to_html(self.service, label_name, messages)
+          page_token = results.get('nextPageToken')
+          if not page_token:
+              break
     except Exception as e:
       print(f'An error occurred: {e}')
 
@@ -59,7 +63,7 @@ class GmailReader:
     self.read_mail_body_by_walking_tree(service, mail, payload)
     mail.render_embbeded_attachment()
 
-    mail_file_name = f"{self.output_dir}/{label_name}/{mail.subject}.html"
+    mail_file_name = f"{self.output_dir}/{label_name}/{mail.subject.replace(':', '-').replace('/', '_').replace('*', '_').replace('.', '_')}.html"
     with open(mail_file_name, "w") as mail_file:
       mail_file.write(mail.format_to_html())
 
