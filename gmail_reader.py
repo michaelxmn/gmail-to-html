@@ -15,16 +15,20 @@ class GmailReader:
     self.service = gmail_api_service
     self.output_dir = output_dir
 
-  def read(self, label_name):
+  def read(self, label_name, query):
     try:
       search_query = f'label:{label_name}'
+      if query:
+         search_query += ' ' + query
+      print(f'Preparing for messages query: `{search_query}`')
       results = self.service.users().messages().list(userId='me', q=search_query).execute()
       messages = results.get('messages', [])
 
       if not messages:
-        print(f'No messages found with the query "{search_query}".')
+        print(f'No messages found with the query `{search_query}`.')
       else:
-        print(f'Messages with the query "{search_query}":')
+        message_size = results.get('resultSizeEstimate', 0)
+        print(f'Messages size: {message_size}')
         self.transform_emails_to_html(self.service, label_name, messages)
     except Exception as e:
       print(f'An error occurred: {e}')
