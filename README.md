@@ -5,51 +5,52 @@
 
 ## Quick Start
 To run the application, follow these steps:
-1. Clone this repo, locate to your directory and install all requirements:
+1. Clone this repo, locate to your repo directory and install all requirements:
   ```bash
   git clone git@github.com:michaelxmn/gmail-to-html.git
   cd gmail-to-html
   pip install -r requirements.txt
   ```
 
-2. Download your GCP OAuth credentials as `<your_repository_path>/credentials.json`, visit `https://developers.google.com/workspace/guides/create-credentials` for more guides
+2. Download your GCP OAuth credentials as `<your_repository_path>/credentials.json`, please refer to the Configuration section below for more information
 
 3. Run the application using the following command:
   ```bash
   python app.py
   ```
-4. Signing with your Goggle account in the browser, once you signed successfully, the application will download your emails in `Inbox` and then put all the emails to location `<your_repository_path>/output/Inbox/` with file extenstion `.html`
+4. Sign with your Google account in the browser. Once you sign successfully, the application will download your emails in `Inbox` and save all the emails as HTML file in directory `<your_repository_path>/output/Inbox/`
 
 ## Prerequisites
 Ensure you have the following prerequisites installed:
 - Python (version >= 3.9.0)
 
 ## Configuration
-Since the application use Gmail API for read emails, you must `create OAuth consent screen` and `OAuth client credentials` on GCP.
-1. create OAuth consent screen on [Credentials consent page](https://console.cloud.google.com/apis/credentials/consent), visit [Configure the OAuth consent screen and choose scopes](https://developers.google.com/workspace/guides/configure-oauth-consent?hl=en) for more guides
-2. create OAuth client credentials on [GCP Credentials page](https://console.cloud.google.com/apis/credentials), visit [Create access credentials](https://developers.google.com/workspace/guides/create-credentials) for more guides
+Since the application use Gmail API for read emails, you must create`OAuth consent screen` and `OAuth client credentials` on GCP.
+1. Create OAuth consent screen on [Credentials consent page](https://console.cloud.google.com/apis/credentials/consent), visit [Configure the OAuth consent screen and choose scopes](https://developers.google.com/workspace/guides/configure-oauth-consent?hl=en) for more guides
+2. Create OAuth client credentials on [GCP Credentials page](https://console.cloud.google.com/apis/credentials), visit [Create access credentials](https://developers.google.com/workspace/guides/create-credentials) for more guides
 3. Click button `Download OAuth client` under column `Actions` on [GCP Credentials page](https://console.cloud.google.com/apis/credentials), download file as `credentials.json` and put it in <your_repository_path>
 
 ## Usage
-- Download your emails in `Inbox` and then put all the emails to location `<your_repository_path>/output/Inbox/` with file extenstion `.html`
+- Download your emails in `Inbox` as HTML file to location `<your_repository_path>/output/Inbox/`
   ```bash
   python app.py
   ```
-- Change label to `Important` to download emails tagged with label `Important`:
+
+- Use `--label` to download emails tagged with label:
   ```bash
   python app.py --label Important
   ```
 
-- Filter emails with `--q` or `--query`:
+- Use `--q` or `--query` to filter emails by search conditions:
   ```bash
-  python app.py --label Important --q "Subject:This is a subject of email"
+  python app.py --label Important --q "subject:This is a subject of email"
   ```
   or 
   ```bash
-  python app.py --label Important --query "Subject:This is a subject of email"
+  python app.py --label Important --query "subject:This is a subject of email"
   ```
 
-- Change output directory:
+- Use `--outout_dir` to change output directory:
   ```bash
   python app.py --output_dir my_output_dir
   ```
