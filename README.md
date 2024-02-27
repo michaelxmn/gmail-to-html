@@ -9,6 +9,7 @@ To run the application, follow these steps:
   ```bash
   git clone git@github.com:michaelxmn/gmail-to-html.git
   cd gmail-to-html
+  python -m venv genv
   pip install -r requirements.txt
   ```
 
