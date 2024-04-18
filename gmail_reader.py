@@ -52,20 +52,24 @@ class GmailReader:
 
   def transform_to_html(self, service, label_name, message):
     msg = service.users().messages().get(userId='me', id=message['id']).execute()
-    mail = Mail(
-        id_= msg['id'],
-        subject= self.get_subject(msg),
-        mail_from= self.get_from(msg),
-        mail_to= self.get_to(msg),
-        mail_date= msg['internalDate']
-      )
-    payload = msg.get('payload', {})
-    self.read_mail_body_by_walking_tree(service, mail, payload)
-    mail.render_embbeded_attachment()
+    subjectFromMsg = self.get_subject(msg)
+    mail_file_name = f"{self.output_dir}/{label_name}/{subjectFromMsg.replace(':', '-').replace('/', '_').replace('*', '_').replace('.', '_')}.html"
+    if os.path.exists(mail_file_name):
+      print(f"Message skipped, file exists: {mail_file_name}")
+    else:
+      mail = Mail(
+          id_= msg['id'],
+          subject= subjectFromMsg,
+          mail_from= self.get_from(msg),
+          mail_to= self.get_to(msg),
+          mail_date= msg['internalDate']
+        )
+      payload = msg.get('payload', {})
+      self.read_mail_body_by_walking_tree(service, mail, payload)
+      mail.render_embbeded_attachment()
 
-    mail_file_name = f"{self.output_dir}/{label_name}/{mail.subject.replace(':', '-').replace('/', '_').replace('*', '_').replace('.', '_')}.html"
-    with open(mail_file_name, "w") as mail_file:
-      mail_file.write(mail.format_to_html())
+      with open(mail_file_name, "w") as mail_file:
+        mail_file.write(mail.format_to_html())
 
   def read_mail_body_by_walking_tree(self, service, mail, payload):
     if payload.get('mimeType') == 'text/html':
